@@ -88,15 +88,18 @@ async def analyze_data(
         explanation = "AI explanation unavailable. Check your API key or connection."
         try:
             prompt = (
-                f"You are the Lead Data Ethicist for FairLens, an algorithmic bias auditing platform.\n\n"
-                f"**Audit Context:**\n"
-                f"- Sensitive Entity Investigated: '{sens_col.title()}'\n"
-                f"- Target Outcome Analyzed: '{targ_col.title()}'\n"
-                f"- Mathematical Distribution: {bias_result}\n\n"
-                f"**Directive:**\n"
-                f"Provide a highly objective, professional executive summary outlining if demographic disparity exists. "
-                f"Use precise bullet points to detail what this means in real-world terms and the operational risks if left unchecked."
+                f"You are an AI fairness expert.\n\n"
+                f"Sensitive Attribute: {sens_col.title()}\n"
+                f"Outcome Distribution: {bias_result}\n\n"
+                f"Generate a structured response with:\n\n"
+                f"**1. Bias Status:** (Detected/Not Detected + Severity: Low/Moderate/High)\n"
+                f"**2. Key Insight:** (include percentages and disparity)\n"
+                f"**3. Real-World Impact:** (clear and concise)\n"
+                f"**4. Recommended Actions:** (2-3 short, actionable steps)\n\n"
+                f"Keep the tone professional, concise, and product-oriented.\n"
+                f"Avoid overly academic language."
             )
+
             
             response = client.models.generate_content(
                 model='gemini-2.5-flash',
